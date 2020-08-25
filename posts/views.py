@@ -1,6 +1,8 @@
 from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.cache import cache_page
+
 from datetime import datetime
 
 from .forms import PostForm, CommentForm
@@ -8,6 +10,7 @@ from .forms import PostForm, CommentForm
 from .models import Group, Post, User
 
 
+@cache_page(20 * 1)
 def index(request):
     post_list = Post.objects.all()
     paginator = Paginator(post_list, 10)  # показывать по 10 записей на странице.
@@ -80,10 +83,12 @@ def profile(request, username):
 def post_view(request, username, post_id):
     user = get_object_or_404(User, username=username)
     post = get_object_or_404(Post, pk=post_id, author__username=username)
+    form = CommentForm()
+    comments = post.comments.all()
     return render(
         request,
         'posts/post.html',
-        {'author': user, 'post': post},
+        {'author': user, 'post': post, 'form': form, 'items': comments},
     )
 
 
@@ -125,10 +130,33 @@ def server_error(request):
     return render(request, "misc/500.html", status=500)
 
 
-def add_comment(request,):
-    form = CommentForm()
-    return render(
-        request,
-        'comments/comments.html',
-        {'form': form},
-    )
+def add_comment(request, username, post_id):
+    # form = CommentForm()
+    # return render(
+    #     request,
+    #     'comments/comments.html',
+    #     {'form': form},
+    # )
+    if not request.method == 'POST':
+        form = CommentForm()
+        return render(
+            request,
+            'posts/post.html',
+            {'form': form},
+        )
+
+    form = CommentForm(request.POST)
+    if not form.is_valid():
+        return render(
+            request,
+            'posts/post.html',
+            {'form': form}
+        )
+
+    comment = form.save(commit=False)
+    comment.post = get_object_or_404(Post, pk=post_id, author__username=username)
+    comment.author = request.user
+    comment.created = datetime.now()
+    comment.save()
+
+    return redirect('post', username, post_id)

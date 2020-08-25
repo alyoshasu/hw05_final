@@ -168,5 +168,21 @@ class TestStringMethods(TestCase):
             ),
         )
 
+    def test_cache(self):
+        url = reverse('index')
+        self.post_1 = Post.objects.create(
+            author=self.user,
+            group=self.group,
+            text='Hello world!',
+        )
+        response_1 = self.authorized_client.post(url)
+        self.post_2 = Post.objects.create(
+            author=self.user,
+            group=self.group,
+            text='Buy world!',
+        )
+        response_2 = self.authorized_client.post(url)
+        self.assertEqual(response_1, response_2)
+
     def tearDown(self):
         print("tearDown")
