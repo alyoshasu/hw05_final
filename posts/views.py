@@ -11,7 +11,7 @@ from .forms import PostForm, CommentForm
 from .models import Group, Post, User, Follow
 
 
-@cache_page(5 * 1, key_prefix="index_page")
+# @cache_page(5 * 1, key_prefix="index_page")
 def index(request):
     post_list = Post.objects.all()
     paginator = Paginator(post_list, 10)  # показывать по 10 записей на странице.
@@ -73,12 +73,18 @@ def profile(request, username):
 
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
+    if request.user.is_authenticated:
+        try:
+            following = Follow.objects.get(author__username=username, user=request.user)
+        except Follow.DoesNotExist:
+            following = False
+    else:
+        following = False
+    # following = True
     return render(
         request,
         'profile/profile.html',
-        {'profile': user,
-         'page': page,
-         'paginator': paginator}
+        {'profile': user, 'page': page, 'paginator': paginator, 'following': following},
     )
 
 
@@ -87,11 +93,10 @@ def post_view(request, username, post_id):
     post = get_object_or_404(Post, pk=post_id, author__username=username)
     form = CommentForm()
     comments = post.comments.all()
-    following = Follow.objects.filter(author__username=username, user=request.user)
     return render(
         request,
         'posts/post.html',
-        {'author': user, 'post': post, 'form': form, 'items': comments, 'following': following},
+        {'author': user, 'post': post, 'form': form, 'items': comments},
     )
 
 
@@ -135,26 +140,34 @@ def server_error(request):
 
 @login_required
 def add_comment(request, username, post_id):
-    # form = CommentForm()
-    # return render(
-    #     request,
-    #     'comments/comments.html',
-    #     {'form': form},
-    # )
+    user = get_object_or_404(User, username=username)
+    post = get_object_or_404(Post, pk=post_id, author__username=username)
+    comments = post.comments.all()
+    form = CommentForm(request.POST)
+
     if not request.method == 'POST':
         form = CommentForm()
         return render(
             request,
             'posts/post.html',
-            {'form': form},
+            {
+                'author': user,
+                'post': post,
+                'form': form,
+                'items': comments
+            },
         )
 
-    form = CommentForm(request.POST)
     if not form.is_valid():
         return render(
             request,
             'posts/post.html',
-            {'form': form}
+            {
+                'author': user,
+                'post': post,
+                'form': form,
+                'items': comments
+            },
         )
 
     comment = form.save(commit=False)
@@ -162,32 +175,39 @@ def add_comment(request, username, post_id):
     comment.author = request.user
     comment.created = datetime.now()
     comment.save()
-
     return redirect('post', username, post_id)
 
 
 @login_required
 def follow_index(request):
-    # информация о текущем пользователе доступна в переменной request.user
-    user = request.user
     post_list = Post.objects.all()
     paginator = Paginator(post_list, 10)  # показывать по 10 записей на странице.
 
     page_number = request.GET.get('page')  # переменная в URL с номером запрошенной страницы
     page = paginator.get_page(page_number)  # получить записи с нужным смещением
-    return render(request, "follow.html", {'page': page, 'paginator': paginator})
+
+    return render(
+        request,
+        'index.html',
+        {'page': page, 'paginator': paginator},
+    )
 
 
 @login_required
 def profile_follow(request, username):
-    Follow.objects.create(
-        user=request.user,
-        author=get_object_or_404(User, username=username)
-    )
-    return redirect('profile', username)
+    if not request.user == User.objects.get(username=username) \
+            and not Follow.objects.filter(user=request.user, author=User.objects.get(username=username)).count():
+        Follow.objects.create(
+            user=request.user,
+            author=User.objects.get(username=username)
+        )
+    return redirect('index')
 
 
 @login_required
 def profile_unfollow(request, username):
-    Follow.objects.get(user=request.user).delete()
+    Follow.objects.get(
+        user=request.user,
+        author=User.objects.get(username=username)
+    ).delete()
     return redirect('index')
