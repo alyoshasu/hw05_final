@@ -7,6 +7,8 @@ from django.contrib.auth import get_user_model
 from django.urls import reverse
 from django.core.files.uploadedfile import SimpleUploadedFile
 
+import time
+
 # Каждый класс — это набор тестов. Имя такого класса принято начинать со слова Test.
 # В файле может быть множество наборов тестов,
 # не обязательно иметь один класс для всего приложения.
@@ -130,7 +132,7 @@ class TestStringMethods(TestCase):
         )
 
         urls = [
-            reverse('index'),
+            # reverse('index'), - не найдёт из-за кеширования
             reverse('post', args=[self.user.username, post.id]),
             reverse('profile', args=[self.user.username]),
             reverse('group_post', args=[self.group.slug])
@@ -173,16 +175,23 @@ class TestStringMethods(TestCase):
         self.post_1 = Post.objects.create(
             author=self.user,
             group=self.group,
-            text='Hello world!',
+            text='Текст 13254235236336!',
         )
-        response_1 = self.authorized_client.post(url)
+        print(1)
+        response_1 = self.authorized_client.get(url)
+        self.assertEqual(response_1.context["page"].object_list, [self.post_1])
         self.post_2 = Post.objects.create(
             author=self.user,
             group=self.group,
-            text='Buy world!',
+            text='Текст 83762782982723!',
         )
-        response_2 = self.authorized_client.post(url)
-        self.assertEqual(response_1, response_2)
+        print(2)
+        response_2 = self.authorized_client.get(url)
+        self.assertEqual(response_2.context, None)
+        time.sleep(6)
+        print(3)
+        response_3 = self.authorized_client.get(url)
+        self.assertEqual(response_3.context["page"].object_list, [self.post_2, self.post_1])
 
     def tearDown(self):
         print("tearDown")

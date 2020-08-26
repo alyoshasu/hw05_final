@@ -2,21 +2,23 @@ from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_page
+from django.urls import reverse
 
 from datetime import datetime
 
 from .forms import PostForm, CommentForm
 
-from .models import Group, Post, User
+from .models import Group, Post, User, Follow
 
 
-@cache_page(20 * 1)
+@cache_page(5 * 1, key_prefix="index_page")
 def index(request):
     post_list = Post.objects.all()
     paginator = Paginator(post_list, 10)  # показывать по 10 записей на странице.
 
     page_number = request.GET.get('page')  # переменная в URL с номером запрошенной страницы
     page = paginator.get_page(page_number)  # получить записи с нужным смещением
+
     return render(
         request,
         'index.html',
@@ -74,7 +76,7 @@ def profile(request, username):
     return render(
         request,
         'profile/profile.html',
-        {'author': user,
+        {'profile': user,
          'page': page,
          'paginator': paginator}
     )
@@ -85,10 +87,11 @@ def post_view(request, username, post_id):
     post = get_object_or_404(Post, pk=post_id, author__username=username)
     form = CommentForm()
     comments = post.comments.all()
+    following = Follow.objects.filter(author__username=username, user=request.user)
     return render(
         request,
         'posts/post.html',
-        {'author': user, 'post': post, 'form': form, 'items': comments},
+        {'author': user, 'post': post, 'form': form, 'items': comments, 'following': following},
     )
 
 
@@ -130,6 +133,7 @@ def server_error(request):
     return render(request, "misc/500.html", status=500)
 
 
+@login_required
 def add_comment(request, username, post_id):
     # form = CommentForm()
     # return render(
@@ -160,3 +164,30 @@ def add_comment(request, username, post_id):
     comment.save()
 
     return redirect('post', username, post_id)
+
+
+@login_required
+def follow_index(request):
+    # информация о текущем пользователе доступна в переменной request.user
+    user = request.user
+    post_list = Post.objects.all()
+    paginator = Paginator(post_list, 10)  # показывать по 10 записей на странице.
+
+    page_number = request.GET.get('page')  # переменная в URL с номером запрошенной страницы
+    page = paginator.get_page(page_number)  # получить записи с нужным смещением
+    return render(request, "follow.html", {'page': page, 'paginator': paginator})
+
+
+@login_required
+def profile_follow(request, username):
+    Follow.objects.create(
+        user=request.user,
+        author=get_object_or_404(User, username=username)
+    )
+    return redirect('profile', username)
+
+
+@login_required
+def profile_unfollow(request, username):
+    Follow.objects.get(user=request.user).delete()
+    return redirect('index')
