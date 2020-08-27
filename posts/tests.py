@@ -30,12 +30,12 @@ def find_post(self, response, text, author):
         self.assertEqual(response.context["post"].author.username, author)
 
 
-def not_find_comment():
-    pass
+def not_find_comment(self, response):
+    self.assertNotContains(response, "items")
 
 
 def find_comment(self, response, author, text):
-    print(response.context["items"])
+    self.assertContains(response, "items")
     self.assertEqual(response.context["items"][0].text, text)
     self.assertEqual(response.context["items"][0].author.username, author)
 
@@ -268,13 +268,11 @@ class TestStringMethods(TestCase):
             text='Hello world!',
         )
 
-        url_1 = reverse('add_comment', args=[self.second_user.username, self.post.pk])
-        response_1 = self.authorized_client.post(url_1, {'text': 'aaaaaaa'}, follow=True)
-        url_2 = reverse('post', args=[self.second_user.username, self.post.pk])
-        response_2 = self.authorized_client.post(url_2)
-        find_comment(self, response_2, self.second_user.username, 'aaaaaaa')
-        print(Comment.objects.all()[0])
-        # TODO  Проверка работает правильно,но сейчас пост создаёт автор поста. Проверить.
+        url = reverse('add_comment', args=[self.second_user.username, self.post.pk])
+        response_1 = self.authorized_client.post(url, {'text': 'aaaaaaa'}, follow=True)
+        find_comment(self, response_1, self.user.username, 'aaaaaaa')
+        response_2 = self.unauthorized_client.post(url, {'text': 'aaaaaaa'}, follow=True)
+        not_find_comment(self, response_2)
 
     def tearDown(self):
         print("tearDown")
