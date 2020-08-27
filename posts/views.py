@@ -11,7 +11,7 @@ from .forms import PostForm, CommentForm
 from .models import Group, Post, User, Follow
 
 
-# @cache_page(5 * 1, key_prefix="index_page")
+@cache_page(5 * 1, key_prefix="index_page")
 def index(request):
     post_list = Post.objects.all()
     paginator = Paginator(post_list, 10)  # показывать по 10 записей на странице.
@@ -22,7 +22,7 @@ def index(request):
     return render(
         request,
         'index.html',
-        {'page': page, 'paginator': paginator},
+        {'page': page, 'paginator': paginator, 'index': True, 'follow': False},
     )
 
 
@@ -180,7 +180,7 @@ def add_comment(request, username, post_id):
 
 @login_required
 def follow_index(request):
-    post_list = Post.objects.all()
+    post_list = Post.objects.filter(author__following__user=request.user)
     paginator = Paginator(post_list, 10)  # показывать по 10 записей на странице.
 
     page_number = request.GET.get('page')  # переменная в URL с номером запрошенной страницы
@@ -189,7 +189,7 @@ def follow_index(request):
     return render(
         request,
         'index.html',
-        {'page': page, 'paginator': paginator},
+        {'page': page, 'paginator': paginator, 'index': False, 'follow': True},
     )
 
 

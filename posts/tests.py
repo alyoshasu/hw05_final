@@ -1,7 +1,7 @@
 # Каждый логический набор тестов — это класс,
 # который наследуется от базового класса TestCase
 from django.test import TestCase, Client
-from posts.models import Group, Post
+from posts.models import Group, Post, Follow, Comment
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 from django.urls import reverse
@@ -14,13 +14,30 @@ import time
 # не обязательно иметь один класс для всего приложения.
 
 
-def find_post(self, response, text, author):
-    self.assertEqual(response.context["user"].username, author)
+def not_find_post(self, response, text, author):
+    if "page" in response.context:
+        self.assertEqual(response.context["page"].object_list.count(), 0)
+    else:
+        self.assertEqual(response.context["post"].count(), 0)
 
+
+def find_post(self, response, text, author):
     if "page" in response.context:
         self.assertEqual(response.context["page"].object_list[0].text, text)
+        self.assertEqual(response.context["page"].object_list[0].author.username, author)
     else:
         self.assertEqual(response.context["post"].text, text)
+        self.assertEqual(response.context["post"].author.username, author)
+
+
+def not_find_comment():
+    pass
+
+
+def find_comment(self, response, author, text):
+    print(response.context["items"])
+    self.assertEqual(response.context["items"][0].text, text)
+    self.assertEqual(response.context["items"][0].author.username, author)
 
 
 class TestStringMethods(TestCase):
@@ -192,6 +209,72 @@ class TestStringMethods(TestCase):
         print(3)
         response_3 = self.authorized_client.get(url)
         self.assertEqual(response_3.context["page"].object_list, [self.post_2, self.post_1])
+
+    def test_auth_user_follow_and_unfollow(self):
+        self.second_user = User.objects.create_user(
+            username="second_user", email="second_user@skynet.com", password="012345"
+        )
+        self.post = Post.objects.create(
+            author=self.second_user,
+            group=self.group,
+            text='Hello world!',
+        )
+
+        self.assertEqual(self.user.follower.all().count(), 0)
+
+        url_1 = reverse('profile_follow', args=[self.second_user.username])
+        response = self.authorized_client.get(url_1)
+        self.assertEqual(self.user.follower.all().count(), 1)
+
+        url_2 = reverse('profile_unfollow', args=[self.second_user.username])
+        response = self.authorized_client.get(url_2)
+        self.assertEqual(self.user.follower.all().count(), 0)
+
+    def test_new_post_feed(self):
+        self.second_user = User.objects.create_user(
+            username="second_user", email="second_user@skynet.com", password="012345"
+        )
+
+        self.post = Post.objects.create(
+            author=self.second_user,
+            group=self.group,
+            text='Hello world!',
+        )
+
+        url = reverse('follow_index')
+        response_1 = self.authorized_client.post(url)
+        not_find_post(self, response_1, self.post.text, self.second_user.username)
+
+        Follow.objects.create(
+            user=self.user,
+            author=self.second_user
+        )
+
+        response_2 = self.authorized_client.post(url)
+        find_post(self, response_2, self.post.text, self.second_user.username)
+
+        Follow.objects.get(user=self.user).delete()
+        response_3 = self.authorized_client.post(url)
+        not_find_post(self, response_1, self.post.text, self.second_user.username)
+
+    def test_auth_user_comments(self):
+        self.second_user = User.objects.create_user(
+            username="second_user", email="second_user@skynet.com", password="012345"
+        )
+
+        self.post = Post.objects.create(
+            author=self.second_user,
+            group=self.group,
+            text='Hello world!',
+        )
+
+        url_1 = reverse('add_comment', args=[self.second_user.username, self.post.pk])
+        response_1 = self.authorized_client.post(url_1, {'text': 'aaaaaaa'}, follow=True)
+        url_2 = reverse('post', args=[self.second_user.username, self.post.pk])
+        response_2 = self.authorized_client.post(url_2)
+        find_comment(self, response_2, self.second_user.username, 'aaaaaaa')
+        print(Comment.objects.all()[0])
+        # TODO  Проверка работает правильно,но сейчас пост создаёт автор поста. Проверить.
 
     def tearDown(self):
         print("tearDown")
