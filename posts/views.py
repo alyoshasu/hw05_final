@@ -2,13 +2,22 @@ from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_page
-from django.urls import reverse
 
 from datetime import datetime
 
 from .forms import PostForm, CommentForm
 
 from .models import Group, Post, User, Follow
+
+
+def following_check(user, author_username):
+    if not user.is_authenticated:
+        return False
+    try:
+        following = Follow.objects.get(author__username=author_username, user=user)
+    except Follow.DoesNotExist:
+        following = False
+    return following
 
 
 @cache_page(5 * 1, key_prefix="index_page")
@@ -73,14 +82,7 @@ def profile(request, username):
 
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
-    if request.user.is_authenticated:
-        try:
-            following = Follow.objects.get(author__username=username, user=request.user)
-        except Follow.DoesNotExist:
-            following = False
-    else:
-        following = False
-    # following = True
+    following = following_check(request.user, username)
     return render(
         request,
         'profile/profile.html',
@@ -93,10 +95,11 @@ def post_view(request, username, post_id):
     post = get_object_or_404(Post, pk=post_id, author__username=username)
     form = CommentForm()
     comments = post.comments.all()
+    following = following_check(request.user, username)
     return render(
         request,
         'posts/post.html',
-        {'author': user, 'post': post, 'form': form, 'items': comments},
+        {'author': user, 'post': post, 'form': form, 'items': comments, 'following': following},
     )
 
 
