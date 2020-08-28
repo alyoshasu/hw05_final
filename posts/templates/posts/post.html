@@ -1,38 +1,14 @@
-{% extends "base.html" %}
+{% extends "includes_main/base.html" %}
 {% block title %}Пост автора{% endblock %}
 
 {% block content %}
     <div class="container">
         <h1>Пост автора {{ author.username }} от {{ post.pub_date|date:"d M Y" }}</h1>
         <div class="row">
-            <div class="col-md-3 mb-3 mt-1">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="h2">
-                            {{ author.first_name }} {{ author.last_name }}
-                        </div>
-                        <div class="h3 text-muted">
-                            {{ author.username }}
-                        </div>
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
-                            <div class="h6 text-muted">
-                                Подписчиков: XXX <br />
-                                Подписан: XXX
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="h6 text-muted">
-                                Записей: {{ author.posts.count }}
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+            {% include "includes_posts/small_profile.html" %}
             <div class="col-md-9">
-                {% include "posts/post_item.html" with post=post %}
-                {% include "comments/comments.html" %}
+                {% include "includes_posts/post_item.html" with post=post %}
+                {% include "includes_posts/comments.html" %}
             </div>
         </div>
     </div>

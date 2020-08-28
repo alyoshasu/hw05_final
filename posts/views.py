@@ -84,7 +84,7 @@ def profile(request, username):
     return render(
         request,
         'profile/profile.html',
-        {'profile': user, 'page': page, 'paginator': paginator, 'following': following},
+        {'author': user, 'page': page, 'paginator': paginator, 'following': following},
     )
 
 
