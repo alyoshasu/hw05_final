@@ -5,6 +5,7 @@
     <div class="container">
         <h1>Профиль пользователя {{ profile.username }}</h1>
         <div class="row">
+            {% include "includes_posts/small_profile.html" %}
             <div class="col-md-9">
                 <!-- Вывод ленты записей -->
                 {% for post in page %}
