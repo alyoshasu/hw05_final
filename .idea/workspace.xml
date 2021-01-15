@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="8d75c463-a8de-47ae-a259-51479d45b79c" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="JupyterTrust" id="752fc42c-ab28-4d8a-8856-e902d509beb7" />
+  <component name="ProjectId" id="1gjCciDwMIaVfOHSHyUOOd4YfF5" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/posts/templates/includes_posts" />
+      <recent name="$PROJECT_DIR$/templates/includes_main" />
+      <recent name="$PROJECT_DIR$/posts/templates/posts" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="hw05_final" type="Python.DjangoServer" factoryName="Django server">
+      <module name="hw05_final" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="launchJavascriptDebuger" value="false" />
+      <option name="port" value="8000" />
+      <option name="host" value="" />
+      <option name="additionalOptions" value="" />
+      <option name="browserUrl" value="" />
+      <option name="runTestServer" value="false" />
+      <option name="runNoReload" value="false" />
+      <option name="useCustomRunCommand" value="false" />
+      <option name="customRunCommand" value="" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="8d75c463-a8de-47ae-a259-51479d45b79c" name="Default Changelist" comment="" />
+      <created>1598618697193</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1598618697193</updated>
+      <workItem from="1598618698748" duration="4305000" />
+      <workItem from="1599573974963" duration="48000" />
+      <workItem from="1599574032644" duration="11000" />
+      <workItem from="1599664227327" duration="21000" />
+      <workItem from="1601097343501" duration="76000" />
+      <workItem from="1601156058884" duration="786000" />
+      <workItem from="1601227721455" duration="822000" />
+      <workItem from="1601315548746" duration="409000" />
+      <workItem from="1601461828791" duration="310000" />
+      <workItem from="1602432625661" duration="34000" />
+      <workItem from="1602549407479" duration="43000" />
+      <workItem from="1602716653226" duration="77000" />
+      <workItem from="1602717356387" duration="71000" />
+      <workItem from="1602939141021" duration="31000" />
+      <workItem from="1602944788966" duration="33000" />
+      <workItem from="1602944983484" duration="205000" />
+      <workItem from="1603056935847" duration="54000" />
+      <workItem from="1603290529599" duration="207000" />
+      <workItem from="1603291579497" duration="171000" />
+      <workItem from="1603456470313" duration="40000" />
+      <workItem from="1603456866942" duration="14000" />
+      <workItem from="1603463239794" duration="64000" />
+      <workItem from="1603723888706" duration="10000" />
+      <workItem from="1604060503010" duration="186000" />
+      <workItem from="1604579466774" duration="53000" />
+      <workItem from="1604580095429" duration="16000" />
+      <workItem from="1604610229407" duration="51000" />
+      <workItem from="1604947772765" duration="14000" />
+      <workItem from="1610703305779" duration="273000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="496" y="197" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1599574001604">
+      <screen x="0" y="23" width="1792" height="1022" />
+    </state>
+    <state x="496" y="197" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1792.1022@0.23.1792.1022" timestamp="1599574001604" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/posts/urls.py</url>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
