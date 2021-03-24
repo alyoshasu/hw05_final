@@ -39,6 +39,11 @@
                             <button type="submit" class="btn btn-primary">
                                 {% if post == None %}Добавить{% else %}Сохранить{% endif %}
                             </button>
+                        {% if user == post.author and not post == None%}
+                            <a class="btn btn-primary" href="{% url 'post_delete' post.author.username post.id %}" role="button">
+                                Удалить
+                            </a>
+                        {% endif %}
                     </div>
                 </form>
 

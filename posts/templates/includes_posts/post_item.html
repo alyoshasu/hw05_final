@@ -35,10 +35,14 @@
 
                 <!-- Ссылка на редактирование поста для автора -->
                  {% if user == post.author %}
-                 <a class="btn btn-sm text-muted" href="{% url 'post_edit' post.author.username post.id %}"
+                     <a class="btn btn-sm text-muted" href="{% url 'post_edit' post.author.username post.id %}"
                         role="button">
-                        Редактировать
-                </a>
+                         Редактировать
+                    </a>
+{#                     <a class="btn btn-sm text-muted" href="{% url 'post_delete' post.author.username post.id %}"#}
+{#                        role="button">#}
+{#                        Удалить#}
+{#                    </a>#}
                 {% endif %}
             </div>
 

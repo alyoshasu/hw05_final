@@ -125,6 +125,13 @@ def post_edit(request, username, post_id):
     form.save()
     return redirect('post', username=request.user.username, post_id=post_id)
 
+@login_required
+def post_delete(request, username, post_id):
+    post = get_object_or_404(Post, pk=post_id, author__username=username)
+    if not post.author == request.user:
+        return redirect('post', username=username, post_id=post_id)
+    post.delete()
+    return redirect('index')
 
 def page_not_found(request, exception): # noqa
     # Переменная exception содержит отладочную информацию,
