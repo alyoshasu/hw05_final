@@ -135,11 +135,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-# задаём произвольный URL, который будет использоваться для запросов к статическим файлам
+# задаём произвольный URL, который будет использоваться для запросов к
+# статическим файлам
 STATIC_URL = "/static/"
-# теперь логотип можно будет запросить по адресу sitename.ex**/static/**images/logo.png
+# теперь логотип можно будет запросить по адресу
+# sitename.ex**/static/**images/logo.png
 
-# задаём адрес директории, куда командой *collectstatic* будет собрана вся статика
+# задаём адрес директории, куда командой *collectstatic* будет собрана вся
+# статика
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 MEDIA_URL = '/media/'

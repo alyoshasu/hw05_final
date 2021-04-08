@@ -6,7 +6,7 @@ class Group(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=100, unique=True)
     description = models.TextField()
-    
+
     def __str__(self):
         return self.title
 
@@ -27,11 +27,10 @@ class Post(models.Model):
         Group,
         models.SET_NULL,
         related_name="posts",
-        blank=True, 
+        blank=True,
         null=True,
         verbose_name="Группа",
     )
-    # поле для картинки
     image = models.ImageField(
         upload_to='posts/',
         blank=True,

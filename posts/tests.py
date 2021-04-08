@@ -1,17 +1,10 @@
-# Каждый логический набор тестов — это класс,
-# который наследуется от базового класса TestCase
 from django.test import TestCase, Client
-from posts.models import Group, Post, Follow, Comment
+from posts.models import Group, Post, Follow
 from django.contrib.auth.models import User
-from django.contrib.auth import get_user_model
 from django.urls import reverse
 from django.core.files.uploadedfile import SimpleUploadedFile
 
 import time
-
-# Каждый класс — это набор тестов. Имя такого класса принято начинать со слова Test.
-# В файле может быть множество наборов тестов,
-# не обязательно иметь один класс для всего приложения.
 
 
 def not_find_post(self, response, text, author):
@@ -24,7 +17,10 @@ def not_find_post(self, response, text, author):
 def find_post(self, response, text, author):
     if "page" in response.context:
         self.assertEqual(response.context["page"].object_list[0].text, text)
-        self.assertEqual(response.context["page"].object_list[0].author.username, author)
+        self.assertEqual(
+            response.context["page"].object_list[0].author.username,
+            author,
+        )
     else:
         self.assertEqual(response.context["post"].text, text)
         self.assertEqual(response.context["post"].author.username, author)
@@ -59,7 +55,11 @@ class TestStringMethods(TestCase):
         )
 
     def test_profile(self):
-        response = self.authorized_client.get(reverse('profile', args=[self.user.username]))
+        response = self.authorized_client.get(
+            reverse('profile',
+                    args=[self.user.username],
+                    )
+        )
         self.assertEqual(response.status_code, 200)
 
     def test_new_post_user(self):
@@ -76,7 +76,10 @@ class TestStringMethods(TestCase):
         find_post(self, response, 'Текст', self.user.username)
 
     def test_new_post_not_user(self):
-        response = self.unauthorized_client.post(reverse('post_new'), {'text': 'Текст'})
+        response = self.unauthorized_client.post(
+            reverse('post_new'),
+            {'text': 'Текст'},
+        )
         self.assertRedirects(
             response,
             f'{reverse("login")}?next={reverse("post_new")}'
@@ -111,7 +114,13 @@ class TestStringMethods(TestCase):
             reverse('post_edit', args=[self.user.username, self.post.pk]),
             {'text': 'Текст12345'}
         )
-        self.assertRedirects(response, reverse('post', args=[self.user.username, self.post.pk]))
+        self.assertRedirects(
+            response,
+            reverse(
+                'post',
+                args=[self.user.username, self.post.pk],
+            )
+        )
 
         urls = [
             reverse('index'),
@@ -208,11 +217,16 @@ class TestStringMethods(TestCase):
         time.sleep(6)
         print(3)
         response_3 = self.authorized_client.get(url)
-        self.assertEqual(response_3.context["page"].object_list, [self.post_2, self.post_1])
+        self.assertEqual(
+            response_3.context["page"].object_list,
+            [self.post_2, self.post_1],
+        )
 
     def test_auth_user_follow_and_unfollow(self):
         self.second_user = User.objects.create_user(
-            username="second_user", email="second_user@skynet.com", password="012345"
+            username="second_user",
+            email="second_user@skynet.com",
+            password="012345",
         )
         self.post = Post.objects.create(
             author=self.second_user,
@@ -232,7 +246,9 @@ class TestStringMethods(TestCase):
 
     def test_new_post_feed(self):
         self.second_user = User.objects.create_user(
-            username="second_user", email="second_user@skynet.com", password="012345"
+            username="second_user",
+            email="second_user@skynet.com",
+            password="012345",
         )
 
         self.post = Post.objects.create(
@@ -243,7 +259,12 @@ class TestStringMethods(TestCase):
 
         url = reverse('follow_index')
         response_1 = self.authorized_client.post(url)
-        not_find_post(self, response_1, self.post.text, self.second_user.username)
+        not_find_post(
+            self,
+            response_1,
+            self.post.text,
+            self.second_user.username,
+        )
 
         Follow.objects.create(
             user=self.user,
@@ -255,11 +276,18 @@ class TestStringMethods(TestCase):
 
         Follow.objects.get(user=self.user).delete()
         response_3 = self.authorized_client.post(url)
-        not_find_post(self, response_1, self.post.text, self.second_user.username)
+        not_find_post(
+            self,
+            response_1,
+            self.post.text,
+            self.second_user.username,
+        )
 
     def test_auth_user_comments(self):
         self.second_user = User.objects.create_user(
-            username="second_user", email="second_user@skynet.com", password="012345"
+            username="second_user",
+            email="second_user@skynet.com",
+            password="012345",
         )
 
         self.post = Post.objects.create(
@@ -268,10 +296,21 @@ class TestStringMethods(TestCase):
             text='Hello world!',
         )
 
-        url = reverse('add_comment', args=[self.second_user.username, self.post.pk])
-        response_1 = self.authorized_client.post(url, {'text': 'aaaaaaa'}, follow=True)
+        url = reverse(
+            'add_comment',
+            args=[self.second_user.username, self.post.pk],
+        )
+        response_1 = self.authorized_client.post(
+            url,
+            {'text': 'aaaaaaa'},
+            follow=True,
+        )
         find_comment(self, response_1, self.user.username, 'aaaaaaa')
-        response_2 = self.unauthorized_client.post(url, {'text': 'aaaaaaa'}, follow=True)
+        response_2 = self.unauthorized_client.post(
+            url,
+            {'text': 'aaaaaaa'},
+            follow=True,
+        )
         not_find_comment(self, response_2)
 
     def tearDown(self):
