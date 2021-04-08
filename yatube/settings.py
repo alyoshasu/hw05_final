@@ -41,6 +41,7 @@ INTERNAL_IPS = [
 INSTALLED_APPS = [
     'users',
     'posts',
+    'about',
     'ckeditor',
     'django.contrib.sites',
     'django.contrib.flatpages',

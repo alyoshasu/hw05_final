@@ -4,11 +4,13 @@ from django.contrib.flatpages.admin import FlatPageAdmin
 from django.contrib.flatpages.models import FlatPage
 from ckeditor.widgets import CKEditorWidget
 
+
 # Define a new FlatPageAdmin
 class FlatPageAdmin(FlatPageAdmin):
     formfield_overrides = {
         models.TextField: {'widget': CKEditorWidget}
     }
+
 
 # Re-register FlatPageAdmin
 admin.site.unregister(FlatPage)
