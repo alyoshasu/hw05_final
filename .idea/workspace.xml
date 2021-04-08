@@ -20,17 +20,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8d75c463-a8de-47ae-a259-51479d45b79c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/includes_main/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/includes_main/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/includes_main/footer.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/includes_main/footer.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/users/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/users/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/users/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/users/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/users/templatetags/user_filters.py" beforeDir="false" afterPath="$PROJECT_DIR$/users/templatetags/user_filters.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/users/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/users/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/users/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/users/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yatube/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/yatube/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yatube/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/yatube/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -146,7 +136,7 @@
       <workItem from="1617876572095" duration="7119000" />
       <workItem from="1617884802272" duration="1881000" />
       <workItem from="1617886795773" duration="175000" />
-      <workItem from="1617886989439" duration="735000" />
+      <workItem from="1617886989439" duration="1061000" />
     </task>
     <servers />
   </component>
