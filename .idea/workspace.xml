@@ -22,8 +22,6 @@
     <list default="true" id="8d75c463-a8de-47ae-a259-51479d45b79c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/includes_main/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/includes_main/base.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -136,7 +134,7 @@
       <workItem from="1617196786579" duration="103000" />
       <workItem from="1617725379520" duration="59000" />
       <workItem from="1617726796684" duration="1875000" />
-      <workItem from="1617876572095" duration="4474000" />
+      <workItem from="1617876572095" duration="5004000" />
     </task>
     <servers />
   </component>

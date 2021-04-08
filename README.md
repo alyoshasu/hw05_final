@@ -92,5 +92,5 @@
 
 ## Автор
 
-### Алексей Сухачевский
-![https://t.me/alyosharamone](https://cdn0.iconfinder.com/data/icons/social-media-2092/100/social-56-64.png)
+Алексей Сухачевский<br>
+https://t.me/alyosharamone
